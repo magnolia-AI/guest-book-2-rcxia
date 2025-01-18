@@ -8,8 +8,13 @@ interface PageProps {
   onChange: (content: string) => void;
 }
 const Page: React.FC<PageProps> = React.memo(({ number, content, onChange }) => {
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
   const preventFlip = (e: React.MouseEvent | React.TouchEvent) => {
     e.stopPropagation();
+    e.preventDefault();
+    if (textareaRef.current) {
+      textareaRef.current.focus();
+    }
   };
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     e.stopPropagation();
@@ -35,12 +40,15 @@ const Page: React.FC<PageProps> = React.memo(({ number, content, onChange }) => 
             onTouchStart={preventFlip}
           >
             <textarea
+              ref={textareaRef}
               className="writing-area w-full h-full border-none focus:outline-none resize-none bg-[#fff8e7] font-handwriting text-lg leading-[2.5rem] tracking-wide"
               value={content}
               onChange={handleChange}
               onClick={preventFlip}
               onMouseDown={preventFlip}
               onTouchStart={preventFlip}
+              onKeyDown={e => e.stopPropagation()}
+              onKeyUp={e => e.stopPropagation()}
               placeholder="Write your thoughts here..."
               style={{
                 backgroundImage: 'repeating-linear-gradient(#fff8e7 0px, #fff8e7 24px, #e1d4b7 25px)',
