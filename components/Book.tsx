@@ -14,9 +14,9 @@ const Page: React.FC<PageProps> = ({ number, content, onChange }) => {
         <div className="page-header text-right mb-4 text-gray-500 font-serif italic">
           {number}
         </div>
-        <div className="page-lines">
+        <div className="page-lines h-[400px] w-full">
           <Textarea
-            className="w-full h-[400px] border-none focus:outline-none resize-none bg-[#fff8e7] font-handwriting text-lg leading-[2.5rem] tracking-wide"
+            className="w-full h-full border-none focus:outline-none resize-none bg-[#fff8e7] font-handwriting text-lg leading-[2.5rem] tracking-wide"
             value={content}
             onChange={(e) => onChange(e.target.value)}
             placeholder="Write your thoughts here..."
@@ -46,14 +46,14 @@ export const Book: React.FC = () => {
     <div className="book-container flex justify-center items-center min-h-screen bg-gradient-to-r from-amber-100 via-amber-50 to-amber-100">
       <div className="relative">
         <div className="absolute -inset-4 bg-gradient-to-r from-amber-200 to-amber-100 rounded-lg blur-lg opacity-75"></div>
-        <Card className="relative p-8 bg-[#8B4513] shadow-2xl rounded-lg border-4 border-[#5C3317]">
+        <Card className="relative p-12 bg-[#8B4513] shadow-2xl rounded-lg border-4 border-[#5C3317]">
           <HTMLFlipBook
             width={400}
             height={500}
             size="stretch"
-            minWidth={300}
+            minWidth={400}
             maxWidth={400}
-            minHeight={400}
+            minHeight={500}
             maxHeight={500}
             showCover={true}
             ref={book}
