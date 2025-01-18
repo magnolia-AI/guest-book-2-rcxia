@@ -64,8 +64,30 @@
   transition: transform 0.6s cubic-bezier(0.645, 0.045, 0.355, 1);
   border: 1px solid #e1d4b7;
 }
-.page:hover {
-  transform: rotateY(-15deg);
+.page-corner-right,
+.page-corner-left {
+  position: absolute;
+  bottom: 0;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  z-index: 10;
+}
+.page-corner-right {
+  right: 0;
+  border-top: 40px solid transparent;
+  border-left: 40px solid transparent;
+  border-bottom: 40px solid rgba(139, 69, 19, 0.1);
+}
+.page-corner-left {
+  left: 0;
+  border-top: 40px solid transparent;
+  border-right: 40px solid transparent;
+  border-bottom: 40px solid rgba(139, 69, 19, 0.1);
+}
+.page-corner-right:hover,
+.page-corner-left:hover {
+  border-bottom-color: rgba(139, 69, 19, 0.2);
 }
 .book-container {
   perspective: 1000px;
@@ -116,4 +138,10 @@ textarea::-webkit-scrollbar-thumb:hover {
   max-width: 100%;
   max-height: 100%;
   box-sizing: border-box;
+}
+/* Prevent text selection when dragging corners */
+.page-corner-right,
+.page-corner-left {
+  user-select: none;
+  -webkit-user-select: none;
 }
