@@ -1,7 +1,6 @@
 'use client'
 import React, { useRef, useState } from 'react';
 import HTMLFlipBook from 'react-pageflip';
-import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
 interface PageProps {
   number: number;
@@ -9,15 +8,14 @@ interface PageProps {
   onChange: (content: string) => void;
 }
 const Page: React.FC<PageProps> = ({ number, content, onChange }) => {
-  const handleTextAreaClick = (e: React.MouseEvent) => {
+  console.log('Rendering page', number, 'with content:', content); // Debug log
+  const handleClick = (e: React.MouseEvent) => {
+    console.log('Textarea clicked'); // Debug log
     e.stopPropagation();
   };
-  const handleTextAreaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    e.stopPropagation();
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    console.log('Textarea changed:', e.target.value); // Debug log
     onChange(e.target.value);
-  };
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    e.stopPropagation();
   };
   return (
     <div className="demoPage">
@@ -25,24 +23,29 @@ const Page: React.FC<PageProps> = ({ number, content, onChange }) => {
         <div className="page-header text-right mb-4 text-gray-500 font-serif italic">
           {number}
         </div>
-        <div className="page-lines h-[400px] w-full" onClick={e => e.stopPropagation()}>
-          <div className="writing-area" onClick={e => e.stopPropagation()}>
-            <textarea
-              className="w-full h-full border-none focus:outline-none resize-none bg-[#fff8e7] font-handwriting text-lg leading-[2.5rem] tracking-wide"
-              value={content}
-              onChange={handleTextAreaChange}
-              onClick={handleTextAreaClick}
-              onMouseDown={e => e.stopPropagation()}
-              onTouchStart={e => e.stopPropagation()}
-              onKeyDown={handleKeyDown}
-              placeholder="Write your thoughts here..."
-              style={{
-                backgroundImage: 'repeating-linear-gradient(#fff8e7 0px, #fff8e7 24px, #e1d4b7 25px)',
-                lineHeight: '25px',
-                paddingTop: '4px'
-              }}
-            />
-          </div>
+        <div 
+          className="page-lines h-[400px] w-full" 
+          onClick={e => {
+            console.log('Page lines clicked'); // Debug log
+            e.stopPropagation();
+          }}
+        >
+          <textarea
+            className="w-full h-full border-none focus:outline-none resize-none bg-[#fff8e7] font-handwriting text-lg leading-[2.5rem] tracking-wide writing-area"
+            value={content}
+            onChange={handleChange}
+            onClick={handleClick}
+            onMouseDown={e => {
+              console.log('Textarea mousedown'); // Debug log
+              e.stopPropagation();
+            }}
+            placeholder="Write your thoughts here..."
+            style={{
+              backgroundImage: 'repeating-linear-gradient(#fff8e7 0px, #fff8e7 24px, #e1d4b7 25px)',
+              lineHeight: '25px',
+              paddingTop: '4px'
+            }}
+          />
         </div>
         <div className="page-footer absolute bottom-4 left-1/2 transform -translate-x-1/2 text-gray-400 text-sm italic">
           ✧ ❦ ✧
@@ -55,6 +58,7 @@ export const Book: React.FC = () => {
   const [pages, setPages] = useState<string[]>(Array(6).fill(''));
   const book = useRef(null);
   const updatePageContent = (pageIndex: number, newContent: string) => {
+    console.log('Updating page', pageIndex, 'with:', newContent); // Debug log
     setPages(prevPages => {
       const newPages = [...prevPages];
       newPages[pageIndex] = newContent;
@@ -84,9 +88,10 @@ export const Book: React.FC = () => {
             maxShadowOpacity={0.5}
             showPageCorners={true}
             mobileScrollSupport={true}
+            clickEventForward={true}
           >
             {pages.map((content, index) => (
-              <div key={index}>
+              <div key={index} className="page-wrapper">
                 <Page
                   number={index + 1}
                   content={content}
