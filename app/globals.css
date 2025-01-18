@@ -138,7 +138,6 @@ textarea::-webkit-scrollbar-thumb:hover {
   max-width: 100%;
   max-height: 100%;
   box-sizing: border-box;
-  pointer-events: auto !important;
 }
 /* Prevent text selection when dragging corners */
 .page-corner-right,
@@ -149,10 +148,15 @@ textarea::-webkit-scrollbar-thumb:hover {
 /* Make textarea interactive */
 .page textarea {
   position: relative;
-  z-index: 20;
-  pointer-events: auto !important;
+  z-index: 2;
 }
 /* Ensure the page content is interactive */
 .page-content {
-  pointer-events: auto !important;
+  position: relative;
+  z-index: 1;
+}
+/* Style the page corners */
+.page-corner-right,
+.page-corner-left {
+  z-index: 3;
 }

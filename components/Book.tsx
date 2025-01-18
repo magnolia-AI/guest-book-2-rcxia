@@ -13,7 +13,6 @@ const Page: React.FC<PageProps> = ({ number, content, onChange }) => {
     e.stopPropagation(); // Prevent page flip when clicking textarea
   };
   const handleTextAreaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    e.stopPropagation();
     onChange(e.target.value);
   };
   return (
@@ -51,9 +50,11 @@ export const Book: React.FC = () => {
   const [pages, setPages] = useState<string[]>(Array(6).fill(''));
   const book = useRef(null);
   const updatePageContent = (pageIndex: number, newContent: string) => {
-    const newPages = [...pages];
-    newPages[pageIndex] = newContent;
-    setPages(newPages);
+    setPages(prevPages => {
+      const newPages = [...prevPages];
+      newPages[pageIndex] = newContent;
+      return newPages;
+    });
   };
   return (
     <div className="book-container flex justify-center items-center min-h-screen bg-gradient-to-r from-amber-100 via-amber-50 to-amber-100">
@@ -77,15 +78,7 @@ export const Book: React.FC = () => {
             drawShadow={true}
             maxShadowOpacity={0.5}
             showPageCorners={true}
-            disableFlipByClick={true}
             mobileScrollSupport={true}
-            clickEventForward={true}
-            useMouseEvents={false}
-            swipeDistance={0}
-            showPageCorners={true}
-            onFlip={(e) => {
-              // Handle page flip if needed
-            }}
           >
             {pages.map((content, index) => (
               <div key={index}>
