@@ -1,3 +1,4 @@
+'use client'
 import React, { useRef, useState } from 'react';
 import HTMLFlipBook from 'react-pageflip';
 import { Textarea } from "@/components/ui/textarea";
@@ -11,6 +12,10 @@ const Page: React.FC<PageProps> = ({ number, content, onChange }) => {
   const handleTextAreaClick = (e: React.MouseEvent) => {
     e.stopPropagation(); // Prevent page flip when clicking textarea
   };
+  const handleTextAreaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    e.stopPropagation();
+    onChange(e.target.value);
+  };
   return (
     <div className="page relative bg-white rounded-lg shadow-lg">
       <div className="page-content h-[500px] w-[400px] p-4">
@@ -21,9 +26,10 @@ const Page: React.FC<PageProps> = ({ number, content, onChange }) => {
           <Textarea
             className="w-full h-full border-none focus:outline-none resize-none bg-[#fff8e7] font-handwriting text-lg leading-[2.5rem] tracking-wide"
             value={content}
-            onChange={(e) => onChange(e.target.value)}
+            onChange={handleTextAreaChange}
             onClick={handleTextAreaClick}
             onMouseDown={handleTextAreaClick}
+            onTouchStart={handleTextAreaClick}
             placeholder="Write your thoughts here..."
             style={{
               backgroundImage: 'repeating-linear-gradient(#fff8e7 0px, #fff8e7 24px, #e1d4b7 25px)',
@@ -74,6 +80,12 @@ export const Book: React.FC = () => {
             disableFlipByClick={true}
             mobileScrollSupport={true}
             clickEventForward={true}
+            useMouseEvents={false}
+            swipeDistance={0}
+            showPageCorners={true}
+            onFlip={(e) => {
+              // Handle page flip if needed
+            }}
           >
             {pages.map((content, index) => (
               <div key={index}>
