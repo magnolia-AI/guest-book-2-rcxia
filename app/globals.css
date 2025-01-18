@@ -62,7 +62,6 @@
   background: linear-gradient(to right, #fff8e7 0%, #fffdf7 50%, #fff8e7 100%);
   box-shadow: inset -7px 0 30px -7px rgba(0, 0, 0, 0.4);
   border: 1px solid #e1d4b7;
-  pointer-events: none;
 }
 .book-container {
   perspective: 1000px;
@@ -75,7 +74,6 @@
   position: relative;
   z-index: 1000;
   height: 100%;
-  pointer-events: auto;
 }
 .writing-area {
   position: relative !important;
@@ -89,7 +87,6 @@
   position: relative;
   margin: 0 auto;
   padding: 0 20px;
-  pointer-events: auto;
 }
 .page-lines::after {
   content: '';
@@ -129,6 +126,13 @@ textarea.writing-area {
   z-index: 9999 !important;
   pointer-events: auto !important;
 }
+/* Override any pointer-events from react-pageflip */
+.stf__parent *,
+.stf__wrapper *,
+.stf__block *,
+.stf__item * {
+  pointer-events: auto !important;
+}
 /* Ensure writing area is always accessible */
 .writing-container {
   pointer-events: auto !important;
@@ -160,13 +164,13 @@ textarea.writing-area {
   user-select: text !important;
   -webkit-user-select: text !important;
 }
-/* Set pointer-events to none for page elements except writing area */
-.demoPage *:not(.writing-area, .writing-container, .page-lines) {
-  pointer-events: none;
+/* Additional styles for textarea */
+textarea.writing-area {
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  isolation: isolate !important;
 }
-/* Enable pointer events only for writing area */
-.writing-area,
-.writing-container,
-.page-lines {
-  pointer-events: auto !important;
+/* Ensure the textarea stays focused */
+textarea.writing-area:focus-within {
+  z-index: 9999 !important;
 }
