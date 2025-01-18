@@ -10,10 +10,14 @@ interface PageProps {
 }
 const Page: React.FC<PageProps> = ({ number, content, onChange }) => {
   const handleTextAreaClick = (e: React.MouseEvent) => {
-    e.stopPropagation(); // Prevent page flip when clicking textarea
+    e.stopPropagation();
   };
   const handleTextAreaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    e.stopPropagation();
     onChange(e.target.value);
+  };
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    e.stopPropagation();
   };
   return (
     <div className="demoPage">
@@ -21,21 +25,24 @@ const Page: React.FC<PageProps> = ({ number, content, onChange }) => {
         <div className="page-header text-right mb-4 text-gray-500 font-serif italic">
           {number}
         </div>
-        <div className="page-lines h-[400px] w-full">
-          <Textarea
-            className="w-full h-full border-none focus:outline-none resize-none bg-[#fff8e7] font-handwriting text-lg leading-[2.5rem] tracking-wide"
-            value={content}
-            onChange={handleTextAreaChange}
-            onClick={handleTextAreaClick}
-            onMouseDown={handleTextAreaClick}
-            onTouchStart={handleTextAreaClick}
-            placeholder="Write your thoughts here..."
-            style={{
-              backgroundImage: 'repeating-linear-gradient(#fff8e7 0px, #fff8e7 24px, #e1d4b7 25px)',
-              lineHeight: '25px',
-              paddingTop: '4px'
-            }}
-          />
+        <div className="page-lines h-[400px] w-full" onClick={e => e.stopPropagation()}>
+          <div className="writing-area" onClick={e => e.stopPropagation()}>
+            <textarea
+              className="w-full h-full border-none focus:outline-none resize-none bg-[#fff8e7] font-handwriting text-lg leading-[2.5rem] tracking-wide"
+              value={content}
+              onChange={handleTextAreaChange}
+              onClick={handleTextAreaClick}
+              onMouseDown={e => e.stopPropagation()}
+              onTouchStart={e => e.stopPropagation()}
+              onKeyDown={handleKeyDown}
+              placeholder="Write your thoughts here..."
+              style={{
+                backgroundImage: 'repeating-linear-gradient(#fff8e7 0px, #fff8e7 24px, #e1d4b7 25px)',
+                lineHeight: '25px',
+                paddingTop: '4px'
+              }}
+            />
+          </div>
         </div>
         <div className="page-footer absolute bottom-4 left-1/2 transform -translate-x-1/2 text-gray-400 text-sm italic">
           ✧ ❦ ✧
