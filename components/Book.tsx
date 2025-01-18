@@ -7,10 +7,14 @@ interface PageProps {
   content: string;
   onChange: (content: string) => void;
 }
-const Page: React.FC<PageProps> = ({ number, content, onChange }) => {
-  console.log('Rendering page', number, 'with content:', content); // Debug log
+const Page: React.FC<PageProps> = React.memo(({ number, content, onChange }) => {
   const preventFlip = (e: React.MouseEvent | React.TouchEvent) => {
     e.stopPropagation();
+  };
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    e.stopPropagation();
+    e.preventDefault();
+    onChange(e.target.value);
   };
   return (
     <div className="demoPage">
@@ -33,10 +37,7 @@ const Page: React.FC<PageProps> = ({ number, content, onChange }) => {
             <textarea
               className="writing-area w-full h-full border-none focus:outline-none resize-none bg-[#fff8e7] font-handwriting text-lg leading-[2.5rem] tracking-wide"
               value={content}
-              onChange={(e) => {
-                preventFlip(e);
-                onChange(e.target.value);
-              }}
+              onChange={handleChange}
               onClick={preventFlip}
               onMouseDown={preventFlip}
               onTouchStart={preventFlip}
@@ -55,13 +56,14 @@ const Page: React.FC<PageProps> = ({ number, content, onChange }) => {
       </div>
     </div>
   );
-};
+});
+Page.displayName = 'Page';
 export const Book: React.FC = () => {
   const [pages, setPages] = useState<string[]>(Array(6).fill(''));
   const book = useRef(null);
   const updatePageContent = (pageIndex: number, newContent: string) => {
-    console.log('Updating page', pageIndex, 'with:', newContent); // Debug log
     setPages(prevPages => {
+      if (prevPages[pageIndex] === newContent) return prevPages;
       const newPages = [...prevPages];
       newPages[pageIndex] = newContent;
       return newPages;

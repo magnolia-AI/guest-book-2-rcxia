@@ -165,3 +165,13 @@ textarea.writing-area {
   pointer-events: auto !important;
   touch-action: auto !important;
 }
+/* Prevent focus loss styles */
+.writing-area:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+/* Prevent selection reset */
+.writing-area {
+  user-select: text !important;
+  -webkit-user-select: text !important;
+}
