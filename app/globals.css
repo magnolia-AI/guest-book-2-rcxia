@@ -1,7 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
- @layer base {
+ @import url('https://fonts.googleapis.com/css2?family=Homemade+Apple&display=swap');
+@layer base {
   :root {
     --background: 0 0% 100%;
     --foreground: 0 0% 3.9%;
@@ -54,14 +55,48 @@
     @apply bg-background text-foreground;
   }
 }
+.font-handwriting {
+  font-family: 'Homemade Apple', cursive;
+}
 .page {
-  background: linear-gradient(to right, #f0f0f0 0%, #ffffff 50%, #f0f0f0 100%);
+  background: linear-gradient(to right, #fff8e7 0%, #fffdf7 50%, #fff8e7 100%);
   box-shadow: inset -7px 0 30px -7px rgba(0, 0, 0, 0.4);
   transition: transform 0.6s cubic-bezier(0.645, 0.045, 0.355, 1);
+  border: 1px solid #e1d4b7;
 }
 .page:hover {
   transform: rotateY(-15deg);
 }
 .book-container {
   perspective: 1000px;
+}
+.page-content {
+  position: relative;
+}
+.page-content::after {
+  content: '';
+  position: absolute;
+  left: 40px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: rgba(139, 69, 19, 0.1);
+}
+textarea::placeholder {
+  color: rgba(0, 0, 0, 0.3);
+  font-style: italic;
+}
+/* Customize scrollbar */
+textarea::-webkit-scrollbar {
+  width: 8px;
+}
+textarea::-webkit-scrollbar-track {
+  background: rgba(231, 214, 182, 0.1);
+}
+textarea::-webkit-scrollbar-thumb {
+  background: rgba(139, 69, 19, 0.2);
+  border-radius: 4px;
+}
+textarea::-webkit-scrollbar-thumb:hover {
+  background: rgba(139, 69, 19, 0.3);
 }
