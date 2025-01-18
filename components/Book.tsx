@@ -16,7 +16,7 @@ const Page: React.FC<PageProps> = ({ number, content, onChange }) => {
     onChange(e.target.value);
   };
   return (
-    <div className="page relative bg-white rounded-lg shadow-lg">
+    <div className="demoPage">
       <div className="page-content h-[500px] w-[400px] p-4">
         <div className="page-header text-right mb-4 text-gray-500 font-serif italic">
           {number}
@@ -40,8 +40,6 @@ const Page: React.FC<PageProps> = ({ number, content, onChange }) => {
         <div className="page-footer absolute bottom-4 left-1/2 transform -translate-x-1/2 text-gray-400 text-sm italic">
           ✧ ❦ ✧
         </div>
-        <div className="page-corner-right" />
-        <div className="page-corner-left" />
       </div>
     </div>
   );
