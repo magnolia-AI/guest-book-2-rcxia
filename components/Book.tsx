@@ -37,22 +37,22 @@ const Page: React.FC<PageProps> = React.memo(({ number, content, onChange }) => 
             onMouseDown={preventFlip}
             onTouchStart={preventFlip}
           >
-            <textarea
+            <div 
+              contentEditable 
               ref={textareaRef}
-              className="writing-area w-full h-full border-none focus:outline-none resize-none bg-[#fff8e7] font-handwriting text-lg leading-[2.5rem] tracking-wide"
-              defaultValue={content}
-              onChange={(e) => onChange(e.target.value)}
+              className="writing-area w-full h-full border-none focus:outline-none bg-[#fff8e7] font-handwriting text-lg leading-[2.5rem] tracking-wide overflow-auto"
+              onInput={(e) => onChange(e.currentTarget.textContent || '')}
               onClick={preventFlip}
               onMouseDown={preventFlip}
               onTouchStart={preventFlip}
               onKeyDown={handleKeyDown}
               onKeyUp={handleKeyDown}
-              placeholder="Write your thoughts here..."
               style={{
                 backgroundImage: 'repeating-linear-gradient(#fff8e7 0px, #fff8e7 24px, #e1d4b7 25px)',
                 lineHeight: '25px',
                 paddingTop: '4px'
               }}
+              dangerouslySetInnerHTML={{ __html: content }}
             />
           </div>
         </div>
