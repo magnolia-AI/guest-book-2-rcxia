@@ -9,13 +9,8 @@ interface PageProps {
 }
 const Page: React.FC<PageProps> = ({ number, content, onChange }) => {
   console.log('Rendering page', number, 'with content:', content); // Debug log
-  const handleClick = (e: React.MouseEvent) => {
-    console.log('Textarea clicked'); // Debug log
+  const preventFlip = (e: React.MouseEvent | React.TouchEvent) => {
     e.stopPropagation();
-  };
-  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    console.log('Textarea changed:', e.target.value); // Debug log
-    onChange(e.target.value);
   };
   return (
     <div className="demoPage">
@@ -25,27 +20,34 @@ const Page: React.FC<PageProps> = ({ number, content, onChange }) => {
         </div>
         <div 
           className="page-lines h-[400px] w-full" 
-          onClick={e => {
-            console.log('Page lines clicked'); // Debug log
-            e.stopPropagation();
-          }}
+          onClick={preventFlip}
+          onMouseDown={preventFlip}
+          onTouchStart={preventFlip}
         >
-          <textarea
-            className="w-full h-full border-none focus:outline-none resize-none bg-[#fff8e7] font-handwriting text-lg leading-[2.5rem] tracking-wide writing-area"
-            value={content}
-            onChange={handleChange}
-            onClick={handleClick}
-            onMouseDown={e => {
-              console.log('Textarea mousedown'); // Debug log
-              e.stopPropagation();
-            }}
-            placeholder="Write your thoughts here..."
-            style={{
-              backgroundImage: 'repeating-linear-gradient(#fff8e7 0px, #fff8e7 24px, #e1d4b7 25px)',
-              lineHeight: '25px',
-              paddingTop: '4px'
-            }}
-          />
+          <div 
+            className="writing-container"
+            onClick={preventFlip}
+            onMouseDown={preventFlip}
+            onTouchStart={preventFlip}
+          >
+            <textarea
+              className="writing-area w-full h-full border-none focus:outline-none resize-none bg-[#fff8e7] font-handwriting text-lg leading-[2.5rem] tracking-wide"
+              value={content}
+              onChange={(e) => {
+                preventFlip(e);
+                onChange(e.target.value);
+              }}
+              onClick={preventFlip}
+              onMouseDown={preventFlip}
+              onTouchStart={preventFlip}
+              placeholder="Write your thoughts here..."
+              style={{
+                backgroundImage: 'repeating-linear-gradient(#fff8e7 0px, #fff8e7 24px, #e1d4b7 25px)',
+                lineHeight: '25px',
+                paddingTop: '4px'
+              }}
+            />
+          </div>
         </div>
         <div className="page-footer absolute bottom-4 left-1/2 transform -translate-x-1/2 text-gray-400 text-sm italic">
           ✧ ❦ ✧
@@ -89,6 +91,8 @@ export const Book: React.FC = () => {
             showPageCorners={true}
             mobileScrollSupport={true}
             clickEventForward={true}
+            useMouseEvents={false}
+            swipeDistance={35}
           >
             {pages.map((content, index) => (
               <div key={index} className="page-wrapper">

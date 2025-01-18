@@ -70,11 +70,10 @@
   position: relative;
   margin: 0 auto;
 }
-.page-lines {
+.writing-container {
   position: relative;
-  margin: 0 auto;
-  padding: 0 20px;
   z-index: 1000;
+  height: 100%;
 }
 .writing-area {
   position: relative !important;
@@ -82,9 +81,12 @@
   pointer-events: auto !important;
   touch-action: auto !important;
   cursor: text !important;
+  background-color: #fff8e7;
 }
-.page-wrapper {
-  pointer-events: auto !important;
+.page-lines {
+  position: relative;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 .page-lines::after {
   content: '';
@@ -118,6 +120,23 @@ textarea::-webkit-scrollbar-thumb:hover {
   background: #8B4513;
   border-radius: 4px;
 }
+/* Make sure the textarea is always on top and interactive */
+textarea.writing-area {
+  position: relative !important;
+  z-index: 9999 !important;
+  pointer-events: auto !important;
+}
+/* Override any pointer-events from react-pageflip */
+.stf__parent *,
+.stf__wrapper *,
+.stf__block *,
+.stf__item * {
+  pointer-events: auto !important;
+}
+/* Ensure writing area is always accessible */
+.writing-container {
+  pointer-events: auto !important;
+}
 /* React Page Flip overrides */
 .stf__parent {
   position: relative;
@@ -136,18 +155,13 @@ textarea::-webkit-scrollbar-thumb:hover {
   box-sizing: border-box;
   pointer-events: auto !important;
 }
-/* Ensure all interactive elements work */
-.stf__parent *, 
-.stf__wrapper *, 
-.stf__block *, 
-.stf__item * {
-  pointer-events: auto !important;
-}
-/* Debug outline */
+/* Additional styles to ensure textarea is interactive */
+.page-wrapper,
+.demoPage,
+.page-content,
+.page-lines,
+.writing-container,
 .writing-area {
-  outline: 2px solid transparent;
-  transition: outline-color 0.2s;
-}
-.writing-area:focus {
-  outline: 2px solid rgba(139, 69, 19, 0.2);
+  pointer-events: auto !important;
+  touch-action: auto !important;
 }
